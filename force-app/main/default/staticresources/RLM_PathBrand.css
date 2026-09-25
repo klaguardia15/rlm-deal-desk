@@ -1,0 +1,57 @@
+/* Path accent chevrons — scoped to SLDS path, not the whole Lightning theme. */
+.slds-path {
+    --slds-g-color-brand-base-50: #0176D3;
+    --slds-g-color-brand-base-60: #8fd428;
+    --slds-g-color-brand-base-70: #111111;
+    --lwc-brandAccessible: #111111;
+    --lwc-colorBackgroundButtonBrand: #0176D3;
+    --lwc-colorTextButtonBrand: #111111;
+    --slds-c-button-brand-color-background: #0176D3;
+    --slds-c-button-brand-color-background-hover: #8fd428;
+    --slds-c-button-brand-color-border: #111111;
+    --slds-c-button-brand-text-color: #111111;
+}
+
+.slds-path .slds-path__nav .slds-is-complete .slds-path__link,
+.slds-path .slds-path__nav .slds-is-complete .slds-path__stage-name,
+.slds-path .slds-path__nav .slds-is-complete:before,
+.slds-path .slds-path__nav .slds-is-complete:after {
+    background-color: #111111 !important;
+    background-image: none !important;
+    border-color: #111111 !important;
+}
+
+.slds-path .slds-path__nav .slds-is-complete .slds-path__title,
+.slds-path .slds-path__nav .slds-is-complete .slds-path__stage-name {
+    color: #0176D3 !important;
+}
+
+.slds-path .slds-path__nav .slds-is-current .slds-path__link,
+.slds-path .slds-path__nav .slds-is-active .slds-path__link,
+.slds-path .slds-path__nav .slds-is-current:before,
+.slds-path .slds-path__nav .slds-is-current:after,
+.slds-path .slds-path__nav .slds-is-active:before,
+.slds-path .slds-path__nav .slds-is-active:after {
+    background-color: #0176D3 !important;
+    background-image: none !important;
+    border-color: #0176D3 !important;
+}
+
+.slds-path .slds-path__nav .slds-is-current .slds-path__title,
+.slds-path .slds-path__nav .slds-is-active .slds-path__title,
+.slds-path .slds-path__nav .slds-is-current .slds-path__stage-name,
+.slds-path .slds-path__nav .slds-is-active .slds-path__stage-name {
+    color: #111111 !important;
+}
+
+.slds-path .slds-path__mark-complete .slds-button_brand,
+.slds-path .slds-path__mark-complete button,
+.slds-path lightning-button.slds-path__mark-complete button,
+.slds-path .slds-button_brand {
+    --slds-c-button-brand-color-background: #0176D3;
+    --slds-c-button-brand-color-background-hover: #8fd428;
+    --slds-c-button-brand-text-color: #111111;
+    background-color: #0176D3 !important;
+    color: #111111 !important;
+    border-color: #111111 !important;
+}

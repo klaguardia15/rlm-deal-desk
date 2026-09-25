@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Check_Drift</name>
+        <label>Check Drift</label>
+        <locationX>176</locationX>
+        <locationY>287</locationY>
+        <actionName>RLM_CheckApprovedDrift</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Show_Result</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>quoteId</name>
+            <value>
+                <elementReference>recordId.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>RLM_CheckApprovedDrift</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>67.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Flags Create Order when net or discount drifted from the approved PC snapshot. Does not lock the quote.</description>
+    <environments>Default</environments>
+    <interviewLabel>Check Approved PC Drift {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Check Approved PC Drift</label>
+    <processType>Flow</processType>
+    <screens>
+        <name>Show_Result</name>
+        <label>Approved PC Check</label>
+        <locationX>176</locationX>
+        <locationY>479</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>dspResult</name>
+            <fieldText>&lt;p&gt;{!Check_Drift.message}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Needs another approval: {!Check_Drift.needsAnotherApproval}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Drift</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>recordId</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Quote</objectType>
+    </variables>
+</Flow>

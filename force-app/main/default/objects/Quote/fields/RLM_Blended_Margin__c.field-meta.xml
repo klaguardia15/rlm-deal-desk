@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RLM_Blended_Margin__c</fullName>
+    <description>Blended margin (net vs cost) stamped by the Deal Desk inspect action.</description>
+    <externalId>false</externalId>
+    <label>Blended Margin</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>1</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Percent</type>
+</CustomField>

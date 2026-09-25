@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RLM_Deal_Health_Flags__c</fullName>
+    <description>Names-only flags from the last Deal Desk inspect (padding, missing accessories, channel gaps).</description>
+    <externalId>false</externalId>
+    <label>Deal Health Flags</label>
+    <length>32768</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>LongTextArea</type>
+    <visibleLines>6</visibleLines>
+</CustomField>

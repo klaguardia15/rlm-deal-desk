@@ -1,0 +1,9 @@
+.sfdx/
+.sf/
+.localdevserver/
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
+.experience-work/
+branding/generated/

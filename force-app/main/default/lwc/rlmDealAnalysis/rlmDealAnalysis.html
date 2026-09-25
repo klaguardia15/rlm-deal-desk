@@ -1,0 +1,178 @@
+<template>
+    <template if:true={showShell}>
+    <lightning-card title={cardTitle} icon-name="utility:einstein">
+        <template if:true={loading}>
+            <div class="slds-p-around_small slds-text-color_weak">Scanning this record…</div>
+        </template>
+        <template if:true={errorMessage}>
+            <div class="slds-p-around_small slds-text-color_error" role="alert">{errorMessage}</div>
+        </template>
+        <template if:true={showBody}>
+            <div class="slds-p-horizontal_small slds-p-bottom_small">
+                <template if:true={promptsEnabled}>
+                <template if:true={motionLabel}>
+                    <p class="motion-pill">{motionLabel}</p>
+                    <p class="slds-text-body_small slds-m-bottom_small">{motionBody}</p>
+                </template>
+                <template if:true={headline}>
+                    <p class="slds-text-body_small slds-m-bottom_small">{headline}</p>
+                </template>
+                <template for:each={prompts} for:item="prompt">
+                    <div key={prompt.key} class={prompt.cardClass} role="status">
+                        <p class="slds-text-title_caps slds-m-bottom_xx-small">{prompt.title}</p>
+                        <p class="slds-text-body_small">{prompt.body}</p>
+                        <template if:true={prompt.canApply}>
+                            <lightning-button
+                                class="slds-m-top_x-small"
+                                variant="brand"
+                                label={prompt.actionLabel}
+                                title={prompt.actionLabel}
+                                data-action={prompt.actionKey}
+                                onclick={handleApply}
+                                disabled={applying}>
+                            </lightning-button>
+                        </template>
+                    </div>
+                </template>
+                </template>
+
+                <template if:true={canCompare}>
+                    <div class="compare-block">
+                        <p class="slds-text-title_caps slds-m-bottom_x-small">Quote compare</p>
+                        <p class="slds-text-body_small slds-m-bottom_small">
+                            Compare two quotes, or list price versus this revision. Click the colored counts to filter lines.
+                        </p>
+                        <div class="slds-grid slds-gutters slds-wrap slds-m-bottom_small">
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <lightning-combobox
+                                    name="leftQuote"
+                                    label="Compare from"
+                                    value={leftQuoteId}
+                                    options={quoteOptions}
+                                    onchange={handleLeftChange}>
+                                </lightning-combobox>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <lightning-combobox
+                                    name="rightQuote"
+                                    label="Compare to"
+                                    value={rightQuoteId}
+                                    options={quoteOptions}
+                                    onchange={handleRightChange}>
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                        <lightning-button
+                            label="Compare"
+                            variant="neutral"
+                            onclick={handleCompare}
+                            disabled={comparing}
+                            title="Compare the selected quotes">
+                        </lightning-button>
+                        <template if:true={compareError}>
+                            <p class="slds-text-color_error slds-m-top_small" role="alert">{compareError}</p>
+                        </template>
+                        <template if:true={compareResult}>
+                            <div class="slds-m-top_small">
+                                <p class="slds-text-body_small slds-m-bottom_x-small">
+                                    {compareResult.leftTitle} → {compareResult.rightTitle}
+                                </p>
+                                <template if:true={compareResult.managementSummary}>
+                                    <div class="summary-block" role="status">
+                                        <p class="slds-text-title_caps slds-m-bottom_xx-small">Management brief</p>
+                                        <p class="slds-text-body_small">{compareResult.managementSummary}</p>
+                                    </div>
+                                </template>
+                                <div class="count-chips" role="group" aria-label="Filter line changes">
+                                    <template for:each={filterChips} for:item="chip">
+                                        <button
+                                            key={chip.key}
+                                            type="button"
+                                            class={chip.buttonClass}
+                                            data-filter={chip.key}
+                                            onclick={handleFilterChip}
+                                            aria-pressed={chip.pressed}
+                                            title={chip.title}>
+                                            {chip.label}
+                                        </button>
+                                    </template>
+                                </div>
+                                <table class="kpi-table slds-m-top_small">
+                                    <caption class="slds-assistive-text">Header comparison</caption>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Field</th>
+                                            <th scope="col">From</th>
+                                            <th scope="col">To</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template for:each={compareResult.headerRows} for:item="row">
+                                            <tr key={row.field} class={row.rowClass}>
+                                                <th scope="row">{row.field}</th>
+                                                <td>{row.previousValue}</td>
+                                                <td>{row.currentValue}</td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                                <template if:true={hasVisibleLines}>
+                                    <div class="line-scroll slds-m-top_small">
+                                        <table class="kpi-table">
+                                            <caption class="slds-assistive-text">Line comparison</caption>
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Change</th>
+                                                    <th scope="col">Product</th>
+                                                    <th scope="col">Qty</th>
+                                                    <th scope="col">Disc</th>
+                                                    <th scope="col">Net</th>
+                                                    <th scope="col">Margin</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <template for:each={visibleLineDeltas} for:item="line">
+                                                    <tr key={line.sku} class={line.rowClass}>
+                                                        <td>
+                                                            <span class={line.changeChipClass}>{line.changeType}</span>
+                                                        </td>
+                                                        <td>{line.name}</td>
+                                                        <td>
+                                                            <div>{line.qtyValue}</div>
+                                                            <span class={line.qtyImpactClass}>{line.qtyDelta}</span>
+                                                        </td>
+                                                        <td>
+                                                            <div>{line.discValue}</div>
+                                                            <span class={line.discImpactClass}>{line.discDelta}</span>
+                                                        </td>
+                                                        <td>
+                                                            <div>{line.netValue}</div>
+                                                            <span class={line.netImpactClass}>{line.netDeltaLabel}</span>
+                                                        </td>
+                                                        <td>
+                                                            <div>{line.marginValue}</div>
+                                                            <span class={line.marginImpactClass}>{line.marginDelta}</span>
+                                                            <div>
+                                                                <span class={line.flagClass}>{line.flagLabel}</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </template>
+                                <template if:false={hasVisibleLines}>
+                                    <p class="slds-text-body_small slds-m-top_small slds-text-color_weak">
+                                        No lines for those filters. Click a colored count above to include them.
+                                    </p>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </template>
+    </lightning-card>
+    </template>
+</template>

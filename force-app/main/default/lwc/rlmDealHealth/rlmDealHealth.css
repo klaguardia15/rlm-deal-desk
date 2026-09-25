@@ -1,0 +1,22 @@
+.status-pill {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border-radius: 1rem;
+    font-weight: 600;
+}
+.status-healthy {
+    background: #acf3e4;
+    color: #05603a;
+}
+.status-review {
+    background: #f9e3b6;
+    color: #8c4b02;
+}
+.status-risk {
+    background: #fdd4d4;
+    color: #8a031a;
+}
+.status-unknown {
+    background: #e5e5e5;
+    color: #3e3e3c;
+}

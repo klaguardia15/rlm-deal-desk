@@ -1,0 +1,168 @@
+system:
+    instructions: |
+        You are a deal-desk advisor. Protect margin. Confirm the
+        quote account is the distributor this company invoices. Speak in short
+        sentences. Product names only — never Salesforce Ids, never JSON,
+        never true/false/1 dumps, never HTML.
+
+        After Inspect_Deal_Desk_Quote, paraphrase findingsDisplay in your own
+        words. Do not paste it twice. Call out the required cable if it is missing. If a
+        prior quote exists, summarize what changed versus that Price Concession
+        and versus list. If the quote is a partner Price Concession request,
+        read PC Justification, quote their percent, and offer to apply that
+        header concession with Apply_Partner_Requested_Concession — never the
+        channel run-rate discount. Confirm with the user before applying.
+        End with one recommended next step.
+
+        Current Object: {!@variables.currentObjectApiName}
+        Current Record: {!@variables.currentRecordId}
+    messages:
+        welcome:|
+            I can inspect this quote, or apply the partner-requested concession from their message. Pick a suggestion below or type a question.
+        error: "Something went wrong. Refresh the quote and try again."
+
+config:
+    agent_label: "Deal Desk Assistant"
+    agent_type: "AgentforceEmployeeAgent"
+    description: "Deal-desk agent. Margin, padding, missing accessories, distributor vs partner request, price concession vs order."
+    developer_name: "RLM_Deal_Desk_Assistant"
+
+variables:
+    currentAppName: mutable string
+        description: "Salesforce Application Name."
+        visibility: "External"
+    currentObjectApiName: mutable string
+        description: "API name of the current record object."
+        visibility: "External"
+    currentPageType: mutable string
+        description: "Type of Salesforce Page."
+        visibility: "External"
+    currentRecordId: mutable id
+        description: "Id of the current page record."
+        visibility: "External"
+
+language:
+    default_locale: "en_US"
+    all_additional_locales: False
+
+knowledge:
+    citations_enabled: False
+
+start_agent DealDesk:
+
+    label: "Deal Desk"
+    description: "Inspect this quote for missing accessories, USB-C, margin versus list, last Price Concession, or apply the partner-requested concession from their message."
+
+    reasoning:
+        instructions: ->
+            | If the user is on a Quote, pass currentRecordId to Inspect_Deal_Desk_Quote.
+              After the action, speak only from findingsDisplay. Do not list isSuccess,
+              hasPadding, hasMissingAccessories, or suggestedApprovalLevel.
+              If the required cable is missing, say so and recommend adding it.
+              If a prior Price Concession compare is in the display, lead with that.
+              If padding is flagged, name the padding products from the findings.
+              If accessories are missing, tell them to add the required charging accessories.
+              If the user asks to apply the partner-requested concession, or the inspect
+              recap mentions a partner message with a percent, call
+              Apply_Partner_Requested_Concession with currentRecordId. Confirm first.
+              Never apply the channel-history discount on a partner-request quote.
+        actions:
+            Inspect_Deal_Desk_Quote: @actions.Inspect_Deal_Desk_Quote
+            Apply_Partner_Requested_Concession: @actions.Apply_Partner_Requested_Concession
+
+    actions:
+        Inspect_Deal_Desk_Quote:
+            description: "Inspects this quote versus list, missing accessories, padding SKUs, and the last Price Concession."
+            label: "Inspect Deal Desk Quote"
+            require_user_confirmation: False
+            include_in_progress_indicator: True
+            progress_indicator_message: "Inspecting quote ..."
+            target: "flow://RLM_AI_Inspect_Deal_Desk_Quote"
+
+            inputs:
+                "quoteId": string
+                    description: "The 18-character Salesforce ID of the Quote (starts with 0Q0)."
+                    label: "quoteId"
+                    is_required: True
+                    is_user_input: False
+                    complex_data_type_name: "lightning__textType"
+
+            outputs:
+                "isSuccess": boolean
+                    description: "True when the inspect completed."
+                    label: "isSuccess"
+                    is_displayable: False
+                    filter_from_agent: True
+                    complex_data_type_name: "lightning__booleanType"
+                "hasMissingAccessories": boolean
+                    description: "True when required charging is missing."
+                    label: "hasMissingAccessories"
+                    is_displayable: False
+                    filter_from_agent: True
+                    complex_data_type_name: "lightning__booleanType"
+                "hasPadding": boolean
+                    description: "True when padding SKUs are present."
+                    label: "hasPadding"
+                    is_displayable: False
+                    filter_from_agent: True
+                    complex_data_type_name: "lightning__booleanType"
+                "suggestedApprovalLevel": number
+                    description: "0 none, 1 Manager, 2 Director, 3 VP."
+                    label: "suggestedApprovalLevel"
+                    is_displayable: False
+                    filter_from_agent: True
+                    complex_data_type_name: "lightning__numberType"
+                "findingsDisplay": string
+                    description: "Plain-language recap. Present this to the user in your own words."
+                    label: "findingsDisplay"
+                    is_displayable: True
+                    filter_from_agent: False
+                    complex_data_type_name: "lightning__textType"
+                "errorMessage": string
+                    description: "Plain-language error if inspect failed."
+                    label: "errorMessage"
+                    is_displayable: False
+                    filter_from_agent: True
+                    complex_data_type_name: "lightning__textType"
+
+        Apply_Partner_Requested_Concession:
+            description: "Applies the percent in the partner PC Justification to the quote header. Confirm with the seller first. Does not submit approval."
+            label: "Apply Partner-Requested Concession"
+            require_user_confirmation: True
+            include_in_progress_indicator: True
+            progress_indicator_message: "Applying partner concession ..."
+            target: "flow://RLM_Apply_Partner_Concession"
+
+            inputs:
+                "quoteId": string
+                    description: "The 18-character Salesforce ID of the Quote (starts with 0Q0)."
+                    label: "quoteId"
+                    is_required: True
+                    is_user_input: False
+                    complex_data_type_name: "lightning__textType"
+
+            outputs:
+                "isSuccess": boolean
+                    description: "True when the header discount was written."
+                    label: "isSuccess"
+                    is_displayable: False
+                    filter_from_agent: True
+                    complex_data_type_name: "lightning__booleanType"
+                "message": string
+                    description: "What was written on the quote header."
+                    label: "message"
+                    is_displayable: True
+                    filter_from_agent: False
+                    complex_data_type_name: "lightning__textType"
+                "errorMessage": string
+                    description: "Plain-language error if apply failed."
+                    label: "errorMessage"
+                    is_displayable: False
+                    filter_from_agent: True
+                    complex_data_type_name: "lightning__textType"
+                "appliedPercent": number
+                    description: "Header discount percent written from the partner message."
+                    label: "appliedPercent"
+                    is_displayable: True
+                    filter_from_agent: False
+                    complex_data_type_name: "lightning__numberType"

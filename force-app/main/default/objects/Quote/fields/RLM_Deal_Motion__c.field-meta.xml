@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RLM_Deal_Motion__c</fullName>
+    <description>How this quote is meant to close. Chosen on New Quote. Hardware can be Sales Agreement (run-rate) or Quote to order.</description>
+    <externalId>false</externalId>
+    <label>Deal motion</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Sales_Agreement</fullName>
+                <default>false</default>
+                <label>Sales Agreement (run-rate)</label>
+            </value>
+            <value>
+                <fullName>Quote_To_Order</fullName>
+                <default>false</default>
+                <label>Quote to order</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

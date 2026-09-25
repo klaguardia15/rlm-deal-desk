@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Sync_Discount</name>
+        <label>Sync Discount</label>
+        <locationX>176</locationX>
+        <locationY>287</locationY>
+        <actionName>RLM_SyncLineDiscount</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>quoteId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>RLM_SyncLineDiscount</nameSegment>
+    </actionCalls>
+    <apiVersion>67.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Optional: copy header AppliedDiscount onto lines. Left Draft so header and line discounts stay independent — Enable only if you want them synced.</description>
+    <environments>Default</environments>
+    <interviewLabel>Sync Line Discount {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Sync Line Discount From Header</label>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Sync_Discount</targetReference>
+        </connector>
+        <filterFormula>ISCHANGED({!$Record.AppliedDiscount})</filterFormula>
+        <object>Quote</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Draft</status>
+</Flow>

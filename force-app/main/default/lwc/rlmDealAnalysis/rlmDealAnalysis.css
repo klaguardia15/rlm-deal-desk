@@ -1,0 +1,172 @@
+.prompt-card {
+    border-left: 4px solid #111;
+    background: #f4f6f9;
+    padding: 0.6rem 0.75rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0 0.25rem 0.25rem 0;
+}
+.prompt-warning {
+    border-left-color: #a8f932;
+    background: #f7ffe8;
+}
+.prompt-success {
+    border-left-color: #05603a;
+    background: #e8f6ef;
+}
+.prompt-info {
+    border-left-color: #111;
+}
+.motion-pill {
+    display: inline-block;
+    background: #111;
+    color: #a8f932;
+    font-weight: 600;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.55rem;
+    border-radius: 1rem;
+    margin-bottom: 0.35rem;
+}
+.compare-block {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #d8dde6;
+}
+.count-chips {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0;
+    margin: 0 0 0.75rem;
+}
+.chip {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 1rem;
+}
+.chip-mod {
+    background: #f9e3b6;
+    color: #8c4b02;
+}
+.chip-add {
+    background: #e8f6ef;
+    color: #05603a;
+}
+.chip-rem {
+    background: #fdd4d4;
+    color: #8a031a;
+}
+.chip-ok {
+    background: #e5e5e5;
+    color: #3e3e3c;
+}
+.chip-btn {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 1rem;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-family: inherit;
+}
+.chip-btn.is-off {
+    opacity: 0.4;
+}
+.chip-btn.is-on {
+    box-shadow: 0 0 0 2px #111;
+}
+.chip-btn:focus {
+    outline: 2px solid #111;
+    outline-offset: 2px;
+}
+.change-chip {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 0.1rem 0.45rem;
+    border-radius: 1rem;
+}
+.impact-pos {
+    color: #05603a;
+    font-weight: 700;
+}
+.impact-neg {
+    color: #8a031a;
+    font-weight: 700;
+}
+.impact-none {
+    color: #5c5f66;
+    font-weight: 400;
+}
+.kpi-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+}
+.kpi-table th,
+.kpi-table td {
+    text-align: left;
+    padding: 0.35rem 0.4rem;
+    border-bottom: 1px solid #e5e5e5;
+    vertical-align: top;
+}
+.kpi-table thead th {
+    color: #5c5f66;
+    font-weight: 600;
+}
+.header-changed td,
+.header-changed th {
+    background: #fff8e6;
+}
+.delta-added td {
+    background: #e8f6ef;
+}
+.delta-removed td {
+    background: #fdecec;
+}
+.delta-modified td {
+    background: #fff8e6;
+}
+.summary-block {
+    background: #111;
+    color: #f4f6f9;
+    padding: 0.65rem 0.75rem;
+    border-radius: 0.25rem;
+    margin-bottom: 0.75rem;
+}
+.summary-block .slds-text-title_caps {
+    color: #a8f932;
+}
+.line-scroll {
+    overflow-x: auto;
+}
+.margin-pill {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 0.1rem 0.45rem;
+    border-radius: 1rem;
+}
+.margin-green {
+    background: #e8f6ef;
+    color: #05603a;
+}
+.margin-yellow {
+    background: #f9e3b6;
+    color: #8c4b02;
+}
+.margin-red {
+    background: #fdd4d4;
+    color: #8a031a;
+}
+.margin-unknown {
+    background: #e5e5e5;
+    color: #3e3e3c;
+}

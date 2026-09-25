@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RLM_Margin_Flag__c</fullName>
+    <description>Seller-visible green/yellow/red margin indicator. Numeric Margin / UnitCost stay FLS-hidden for sellers; deal desk sees both.</description>
+    <externalId>false</externalId>
+    <formula>IF(
+  ISBLANK(Margin),
+  IMAGE(&quot;/img/samples/light_yellow.gif&quot;, &quot;No margin&quot;),
+  IF(
+    OR(
+      AND(Margin &gt;= 1, Margin &gt;= 35),
+      AND(Margin &gt; 0, Margin &lt; 1, Margin &gt;= 0.35)
+    ),
+    IMAGE(&quot;/img/samples/light_green.gif&quot;, &quot;Healthy margin&quot;),
+    IF(
+      OR(
+        AND(Margin &gt;= 1, Margin &gt;= 20),
+        AND(Margin &gt; 0, Margin &lt; 1, Margin &gt;= 0.20)
+      ),
+      IMAGE(&quot;/img/samples/light_yellow.gif&quot;, &quot;Watch margin&quot;),
+      IMAGE(&quot;/img/samples/light_red.gif&quot;, &quot;Low margin&quot;)
+    )
+  )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Margin Health</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

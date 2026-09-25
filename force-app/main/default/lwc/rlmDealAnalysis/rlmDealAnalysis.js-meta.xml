@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>67.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Deal analysis</masterLabel>
+    <description>On-record Deal analysis: prompts, and quote compare once a quote has line items.</description>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <objects>
+                <object>Opportunity</object>
+                <object>Quote</object>
+            </objects>
+            <property
+                name="showPrompts"
+                type="Boolean"
+                default="true"
+                label="Show deal prompts"
+                description="Next-step cards (discount, quantity, USB-C). Keep on for the header rail."/>
+            <property
+                name="showCompare"
+                type="Boolean"
+                default="true"
+                label="Show quote compare"
+                description="List-vs-quote and revision compare. Off for the Quote header; on for the Quote compare tab and Opportunity header."/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

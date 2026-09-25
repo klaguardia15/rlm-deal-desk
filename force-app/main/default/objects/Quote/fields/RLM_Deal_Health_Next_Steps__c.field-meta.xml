@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RLM_Deal_Health_Next_Steps__c</fullName>
+    <description>Recommended next steps written by the Deal Desk inspect action.</description>
+    <externalId>false</externalId>
+    <label>Deal Health Next Steps</label>
+    <length>32768</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>LongTextArea</type>
+    <visibleLines>6</visibleLines>
+</CustomField>
